@@ -36,7 +36,8 @@ public class KMissingNumber {
             {
                 int mid = (low + high) / 2 ; 
 
-                int missing = arr[mid] - (mid + 1) ;
+                int missing = arr[mid] - (mid + 1) ; // position and difference 
+                                                     // arr[i] - what was supposed to be here
                 if ( missing < k ) low = mid + 1 ;
                 else high = mid - 1 ; 
 
