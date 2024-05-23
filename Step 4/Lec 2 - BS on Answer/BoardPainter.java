@@ -9,16 +9,13 @@ public class BoardPainter {
         int n = arr.size();
         int partition = 1;
         int sum = 0;
-
         for (int i = 0; i < n; i++) {
             if (sum + arr.get(i) <= maxSum) {
                 sum += arr.get(i);
             }
-
             else {
                 partition ++;
                 sum = arr.get(i);
-
             }
         }
         return partition;
@@ -26,7 +23,6 @@ public class BoardPainter {
 
     public static int findLargestMinDistance(ArrayList<Integer> boards, int k) {
         // Write your code here.
-
         int low = boards.get(0);
         int high = 0;
         // find maximum and summation:
@@ -44,6 +40,5 @@ public class BoardPainter {
                 high = mid - 1;
         }
         return low;
-
     }
 }
