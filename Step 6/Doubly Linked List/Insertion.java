@@ -46,7 +46,6 @@ public class Insertion {
         }
         head = new_node;
     }
-
     static void InsertAfter(Node prev_node ,int new_data)
     {
         Node new_node = new Node(new_data);
@@ -55,7 +54,6 @@ public class Insertion {
             System.out.println("prev cannot be null");
             return;
         }
-
         new_node.next = prev_node.next;
         prev_node.next = new_node;
         new_node.prev = prev_node;
@@ -86,7 +84,7 @@ public class Insertion {
     {
     Node new_node = new Node(new_data);
 
-    Node last = head; /* used in step 5*/
+    Node last = head;
     new_node.next = null;
 
     if (head == null) {
