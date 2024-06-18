@@ -1,71 +1,53 @@
 import java.util.*;
 
-class Node 
-{
+class Node {
     int data;
     Node next;
 
-    Node(int data1)
-    {
-        this.data = data1;
-        this.next = null;
-    }
-    Node(int data1, Node next1)
-    {
+    Node(Node next1, int data1) {
         this.data = data1;
         this.next = next1;
     }
+
+    Node(int data1) {
+        this.data = data1;
+        this.next = null;
+    }
 }
+
 /**
- * InsertInLL
+ * FindLengthOfLL
  */
-public class InsertInLL {
+public class FindLengthOfLL {
+
     static Node head;
 
-    static void printList() {
-        Node node = head;
-        while (node != null) {
-            System.out.print(node.data + " ");
-            node = node.next;
+    static int count() {
+        Node current = head;
+        int count = 0;
+        while (current.next != null) {
+            count += 1;
+            current = current.next;
         }
-        System.out.println();
+        return count;
     }
 
-    /**
-     * @param new_data
-     *                 {@summary} adds new element at the start of the linkedlist
-     */
-    public static void push(int new_data) {
-        Node new_node = new Node(new_data);
-        new_node.next = head;
-        head = new_node;
-    }
-
-    /**
-     * {@summary} add element at the end of the linkedList
-     * 
-     * @param new_data
-     */
     static void append(int new_data) {
         Node new_node = new Node(new_data);
 
         if (head == null) {
             head = new Node(new_data);
-            return;
         }
-
         new_node.next = null;
-
         Node last = head;
-
         while (last.next != null) {
             last = last.next;
         }
-
         last.next = new_node;
     }
 
     public static void main(String[] args) {
+
 
         Scanner sc = new Scanner(System.in);
         System.out.println("enter the number of elements");
@@ -74,9 +56,7 @@ public class InsertInLL {
         for (int i = 0; i < n; i++) {
             append(sc.nextInt());
         }
-        printList();
 
-        sc.close();
+        System.out.println(count());
     }
-
 }

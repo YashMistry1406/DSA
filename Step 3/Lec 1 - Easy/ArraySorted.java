@@ -1,5 +1,6 @@
 /**
  * ArraySorted
+ * tryin out vim fugitive 
  */
 public class ArraySorted {
 
