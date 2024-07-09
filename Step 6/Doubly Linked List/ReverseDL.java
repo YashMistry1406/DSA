@@ -52,7 +52,7 @@ public class ReverseDL {
         Node prev = null;
         Node current = head;
 
-        if(current!=null)
+        while(current!=null)
         {
             prev = current.back;
             current.back = current.next;

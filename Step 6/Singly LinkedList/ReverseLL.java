@@ -23,10 +23,29 @@ class Node
  */
 public class ReverseLL {
     
-    Node head;
+    static Node head;
 
-    public static void main(String[] args) {
-        
+    Node reverse()
+    {
+
+        Node prev = null;
+        Node temp = head ;
+
+        while(temp != null)
+        {
+            Node front = temp.next;
+
+            temp.next = prev;
+
+            prev = temp;
+
+            temp = front;
+            
+        }
+
+        return prev ;
     }
+
+
 }
 
