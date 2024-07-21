@@ -36,9 +36,7 @@ public class ReverseLL {
             Node front = temp.next;
 
             temp.next = prev;
-
             prev = temp;
-
             temp = front;
             
         }
