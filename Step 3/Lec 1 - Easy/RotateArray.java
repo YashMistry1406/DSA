@@ -155,5 +155,13 @@ public class RotateArray
         rotateArrayLeftKTimes(arr, arr.length, k);
         print(arr);
 
+        for (int[] row : arr)
+        {
+            for (int val : row)
+            {
+                System.out.print(val + " ");
+            }
+            System.out.println();
+        }
     }
 }

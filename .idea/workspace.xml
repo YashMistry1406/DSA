@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12d9f31d-518a-4a1f-9e8a-263d8bec74b6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/test.java" beforeDir="false" afterPath="$PROJECT_DIR$/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/AppearOnce.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/AppearOnce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/RotateArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/RotateArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/BuyandSellStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/BuyandSellStock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/KadaneAlgo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/KadaneAlgo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/LongestSuccessive.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/LongestSuccessive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/TwoSum.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/TwoSum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/ZeroMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/ZeroMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/tUf.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 4/Lec 1 - BS on 1D array/MinInSortedArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 4/Lec 1 - BS on 1D array/MinInSortedArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Step 4/Lec 2 - BS on Answer/AggressiveCows.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 4/Lec 2 - BS on Answer/AggressiveCows.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,10 +21,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="38hDcftrhO2K9BCIeL05UXWbmSv" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,13 +36,14 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
       </set>
     </attachedChunks>
   </component>

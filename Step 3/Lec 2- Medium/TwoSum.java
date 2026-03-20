@@ -52,49 +52,83 @@ import java.util.*;
 /**
  * 2Sum
  */
-public class TwoSum {
+public class TwoSum
+{
 
-    static Scanner sc = new Scanner (System.in);
-    public static String twoSum(int n, int []arr, int target) {
+    static Scanner sc = new Scanner(System.in);
+
+    public static String twoSum(int n, int[] arr, int target)
+    {
         Arrays.sort(arr);
 
         System.out.println("enter the target");
         target = sc.nextInt();
         int left = 0, right = n - 1;
-        while (left < right) {
+        while (left < right)
+        {
             int sum = arr[left] + arr[right];
-            if (sum == target) {
+            if (sum == target)
+            {
                 return "YES";
-            } else if (sum < target) left++;
-            else right--;
+            } else if (sum < target)
+                left++;
+            else
+                right--;
         }
         return "NO";
     }
 
-    static int[] input() {
+    /*
+     * Better approach
+     */
+
+    public String twoSumExists(int[] arr, int target)
+    {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        // Iterate over all elements
+        for (int i = 0; i < arr.length; i++)
+        {
+            int complement = target - arr[i];
+            // Check if complement exists in map
+            if (map.containsKey(complement))
+            {
+                return "YES"; // Pair found
+            }
+            // Store current element and its index
+            map.put(arr[i], i);
+        }
+        // No pair found
+        return "NO";
+    }
+
+    static int[] input()
+    {
         Scanner sc = new Scanner(System.in);
         System.out.println("enter the array length");
         int n = sc.nextInt();
         int[] arr = new int[n];
         System.out.println("Enter array element");
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
+        {
             arr[i] = sc.nextInt();
         }
         return arr;
     }
 
-    static void print(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i]+"-");
+    static void print(int[] arr)
+    {
+        for (int i = 0; i < arr.length; i++)
+        {
+            System.out.print(arr[i] + "-");
         }
 
     }
 
+    public static void main(String[] args)
+    {
+        int[] arr = input();
 
-    public static void main(String[] args) {
-        int [] arr = input();
-        
         twoSum(arr.length, arr, 0);
     }
-      
+
 }

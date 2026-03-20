@@ -2,36 +2,57 @@
 /**
  * MinInSortedArray
  */
-public class MinInSortedArray {
+public class MinInSortedArray
+{
 
-    public static int minimum(int[] arr) {
+    public static int minimum(int[] arr)
+    {
 
         int n = arr.length;
         int low = 0;
         int high = n - 1;
         int min = Integer.MAX_VALUE;
-        while (low <= high) {
+        while (low <= high)
+        {
 
             int mid = (low + high) / 2;
 
-            if(arr[low]<=arr[high])
+            if (arr[low] <= arr[high])
             {
-                min = Math.min(arr[low],min);
+                min = Math.min(arr[low], min);
                 break;
             }
 
-            if(arr[low] <= arr[mid])
+            if (arr[low] <= arr[mid])
             {
-                min = Math.min(arr[low],min);
-                low = mid + 1 ;
-            }
-            else
+                min = Math.min(arr[low], min);
+                low = mid + 1;
+            } else
             {
-               min = Math.min(arr[mid], min);
-               high = mid - 1;
+                min = Math.min(arr[mid], min);
+                high = mid - 1;
             }
         }
-        return -1 ;
+        return -1;
+
+        // optimized code
+
+        int n = nums.length;
+        int low = 0;
+        int high = n - 1;
+        int mini = Integer.MAX_VALUE;
+        while (low <= high)
+        {
+            int mid = (low + high) / 2;
+            if (nums[mid] < mini)
+                mini = nums[mid];
+            if (nums[high] <= nums[mid])
+            {
+                low = mid + 1;
+            } else
+                high = mid - 1;
+        }
+        return mini;
+
     }
 }
-
