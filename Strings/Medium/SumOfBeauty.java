@@ -2,21 +2,26 @@ package Strings.Medium;
 
 import java.util.*;
 
-class Solution {
-    public int beautySum(String s) {
+class Solution
+{
+    public int beautySum(String s)
+    {
         int n = s.length();
         int sum = 0;
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
+        {
             Map<Character, Integer> freq = new HashMap<>();
 
-            for (int j = i; j < n; j++) {
+            for (int j = i; j < n; j++)
+            {
                 freq.put(s.charAt(j), freq.getOrDefault(s.charAt(j), 0) + 1);
 
                 int maxi = Integer.MIN_VALUE;
                 int mini = Integer.MAX_VALUE;
 
-                for (int val : freq.values()) {
+                for (int val : freq.values())
+                {
                     mini = Math.min(mini, val);
                     maxi = Math.max(maxi, val);
                 }
@@ -29,8 +34,10 @@ class Solution {
     }
 }
 
-public class SumOfBeauty {
-    public static void main(String[] args) {
+public class SumOfBeauty
+{
+    public static void main(String[] args)
+    {
         Solution sol = new Solution();
         String s = "xyx";
         System.out.println("Beauty Sum: " + sol.beautySum(s));

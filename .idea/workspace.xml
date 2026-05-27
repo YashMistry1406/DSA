@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12d9f31d-518a-4a1f-9e8a-263d8bec74b6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/AppearOnce.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/AppearOnce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/RotateArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 1 - Easy/RotateArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/BuyandSellStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/BuyandSellStock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/KadaneAlgo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/KadaneAlgo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/LongestSuccessive.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/LongestSuccessive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/TwoSum.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/TwoSum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/ZeroMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 3/Lec 2- Medium/ZeroMatrix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 3/Lec 2- Medium/tUf.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 4/Lec 1 - BS on 1D array/MinInSortedArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 4/Lec 1 - BS on 1D array/MinInSortedArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Step 4/Lec 2 - BS on Answer/AggressiveCows.java" beforeDir="false" afterPath="$PROJECT_DIR$/Step 4/Lec 2 - BS on Answer/AggressiveCows.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Strings/Medium/SumOfBeauty.java" beforeDir="false" afterPath="$PROJECT_DIR$/Strings/Medium/SumOfBeauty.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,8 +26,12 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/thermodynamics/Downloads/GenericAPI",
+    "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
