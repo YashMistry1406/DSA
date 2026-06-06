@@ -14,7 +14,7 @@ class Node
     }
 }
 
-public class LinkedListFlattener
+public class FlanttenLLPriorityQueue
 {
 
     public static Node flatten(Node root)
