@@ -1,11 +1,8 @@
 import java.util.*;
 
-public class SubsetSum
-{
-    public static void helper(int index, int sum, int[] arr, List<Integer> ans)
-    {
-        if (index == arr.length)
-        {
+public class SubsetSum {
+    public static void helper(int index, int sum, int[] arr, List<Integer> ans) {
+        if (index == arr.length) {
             ans.add(sum);
             return;
         }
@@ -14,11 +11,8 @@ public class SubsetSum
 
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
-
-        int[]
 
     }
 }

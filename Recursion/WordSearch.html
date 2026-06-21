@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Word Break Visual Engine</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border: 1px solid #2d2d2d;
+        }
+        h2 { margin-top: 0; color: #fff; font-size: 1.6rem; padding-bottom: 12px; border-bottom: 1px solid #2d2d2d; }
+        
+        .config-bar {
+            background: #252526;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .config-bar label { font-family: monospace; font-size: 0.95rem; color: #aaa; }
+        .config-bar input {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+        .btn-generate { background-color: #2ea043; border-color: #3fb950; font-weight: bold; color: white;}
+        .btn-generate:hover { background-color: #3fb950; }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+            background: #252526;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #2d2d2d;
+        }
+        button {
+            background-color: #333333;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px 24px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        button:hover { background-color: #444444; border-color: #666; }
+        button#nextBtn { background-color: #007acc; border-color: #0098ff; }
+        button#nextBtn:hover { background-color: #0098ff; }
+        button:disabled { background-color: #1c1c1c; color: #555; border-color: #252525; cursor: not-allowed; }
+        
+        #actionLog { margin-left: auto; color: #e9c46a; font-family: monospace; font-weight: bold; font-size: 1rem; }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        
+        .panel {
+            background: #181818;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .panel h3 { margin-top: 0; font-size: 0.85rem; color: #858585; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+
+        .stack-container {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 16px;
+            min-height: 380px;
+            justify-content: flex-end;
+        }
+        .stack-frame {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            padding: 18px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #d4d4d4;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+        }
+        .stack-frame.active {
+            background: #007acc;
+            border-color: #0098ff;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 122, 204, 0.6);
+        }
+        .stack-frame .substring-view {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #9cdcfe;
+            background: #1e1e1e;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+        .stack-frame.active .substring-view { color: #ffffff; background: #005995; }
+
+        pre {
+            background: #1e1e1e;
+            padding: 18px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 0;
+            color: #d4d4d4;
+            line-height: 1.6;
+            border: 1px solid #2d2d2d;
+        }
+        .code-line { display: block; width: 100%; padding-left: 6px; border-left: 3px solid transparent; }
+        .line-active { background-color: rgba(233, 196, 106, 0.2); border-left: 3px solid #e9c46a; color: #fff; font-weight: bold; }
+
+        .bottom-panel {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+        .canvas-container {
+            background: #131313;
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        canvas {
+            width: 100%;
+            background: #0f0f0f;
+            border-radius: 6px;
+            border: 1px solid #222;
+        }
+
+        .memo-container {
+            display: flex;
+            gap: 8px;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        .memo-box {
+            border: 1px solid #333;
+            background: #252526;
+            padding: 12px;
+            min-width: 55px;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .memo-true { background-color: #2ea043; color: white; border-color: #3fb950; box-shadow: 0 0 8px rgba(46, 160, 67, 0.4); }
+        .memo-false { background-color: #cf222e; color: white; border-color: #f85149; box-shadow: 0 0 8px rgba(207, 34, 46, 0.4); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Dynamic Word Break Complete State Tree Visualizer</h2>
+    
+    <div class="config-bar">
+        <div>
+            <label for="inputString">Target String (s): </label>
+            <input type="text" id="inputString" value="catsanddog" style="width: 180px;">
+        </div>
+        <div>
+            <label for="inputDict">Word Dictionary (comma separated): </label>
+            <input type="text" id="inputDict" value="cats, cat, sand, and, dog" style="width: 320px;">
+        </div>
+        <button class="btn-generate" onclick="generateNewVisualization()">Generate Tree Map</button>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="prevStep()">← Previous Step</button>
+        <button id="nextBtn" onclick="nextStep()">Next Step →</button>
+        <span class="status-text" id="stepInfo">Step 1</span>
+        <span class="status-text" id="actionLog"></span>
+    </div>
+
+    <div class="workspace">
+        <div class="panel">
+            <h3>Call Stack Track</h3>
+            <div class="stack-container" id="stackContainer"></div>
+        </div>
+
+        <div class="panel">
+            <h3>Source Code Snippet</h3>
+            <pre id="codeSnippet"><span class="code-line" id="line1">private boolean dfs(int i, String s, List&lt;String&gt; wordDict, Boolean[] memo) {</span><span class="code-line" id="line2">    if (i == s.length()) {</span><span class="code-line" id="line3">        return true;</span><span class="code-line" id="line4">    }</span><span class="code-line" id="line5">    if (memo[i] != null) {</span><span class="code-line" id="line6">        return memo[i];</span><span class="code-line" id="line7">    }</span><span class="code-line" id="line8">    for (String word : wordDict) {</span><span class="code-line" id="line9">        if (i + word.length() <= s.length() && s.substring(i, i + word.length()).equals(word)) {</span><span class="code-line" id="line10">            if (dfs(i + word.length(), s, wordDict, memo)) {</span><span class="code-line" id="line11">                memo[i] = true;</span><span class="code-line" id="line12">                return true;</span><span class="code-line" id="line13">            }</span><span class="code-line" id="line14">        }</span><span class="code-line" id="line15">    }</span><span class="code-line" id="line16">    memo[i] = false;</span><span class="code-line" id="line17">    return false;</span><span class="code-line" id="line18">}</span></pre>
+        </div>
+
+        <div class="panel bottom-panel canvas-container">
+            <h3>State Space Graph (Full Backtracking Branch Visualization)</h3>
+            <canvas id="treeCanvas" width="1310" height="500"></canvas>
+        </div>
+
+        <div class="panel bottom-panel">
+            <h3>Memoization Lookup Array State (memo[])</h3>
+            <div class="memo-container" id="memoContainer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let globalStates = [];
+    let step = 0;
+    let currentStr = "";
+    let treeNodes = {};
+    let treeEdges = [];
+    let nodeCounters = {};
+
+    const canvas = document.getElementById("treeCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function runSimulatedWordBreak(s, wordDict) {
+        globalStates = [];
+        treeNodes = {};
+        treeEdges = [];
+        nodeCounters = {};
+        
+        let memo = new Array(s.length + 1).fill(null);
+        let activeStack = [];
+        
+        function logState(line, msg, activeNodeId, edgeIdToAdd = null, confirmedNodeId = null) {
+            let snapVisibleNodes = Object.keys(treeNodes);
+            let snapVisibleEdges = treeEdges.map(e => e.id);
+            
+            let snapActiveEdges = activeStack.map((v, i) => i > 0 ? `e_${activeStack[i-1]}_to_${v}` : null).filter(Boolean);
+            if (edgeIdToAdd && !snapActiveEdges.includes(edgeIdToAdd)) {
+                snapActiveEdges.push(edgeIdToAdd);
+            }
+
+            globalStates.push({
+                activeLine: line,
+                log: msg,
+                stack: [...activeStack.map(n => treeNodes[n].index)],
+                memo: [...memo],
+                visibleNodes: snapVisibleNodes,
+                visibleEdges: snapVisibleEdges,
+                activeNode: activeNodeId,
+                activeEdges: snapActiveEdges,
+                confirmedNodes: globalStates.length > 0 ? [...globalStates[globalStates.length - 1].confirmedNodes || []] : []
+            });
+            if (confirmedNodeId && !globalStates[globalStates.length - 1].confirmedNodes.includes(confirmedNodeId)) {
+                globalStates[globalStates.length - 1].confirmedNodes.push(confirmedNodeId);
+            }
+        }
+
+        function createNode(index, parentId = null, wordLabel = "") {
+            if (nodeCounters[index] === undefined) nodeCounters[index] = 0;
+            nodeCounters[index]++;
+            
+            let id = `n${index}_path${nodeCounters[index]}`;
+            let depth = activeStack.length;
+            
+            treeNodes[id] = {
+                id: id,
+                index: index,
+                lbl: `dfs(${index})`,
+                depth: depth,
+                x: 0,
+                y: 60 + (depth * 90)
+            };
+
+            if (parentId) {
+                let edgeId = `e_${parentId}_to_${id}`;
+                treeEdges.push({ id: edgeId, from: parentId, to: id, lbl: `"${wordLabel}"` });
+                return { id, edgeId };
+            }
+            return { id, edgeId: null };
+        }
+
+        function dfs(i, parentNodeId = null, incomingWord = "") {
+            let { id: currentNodeId, edgeId } = createNode(i, parentNodeId, incomingWord);
+            activeStack.push(currentNodeId);
+
+            logState(1, `dfs(${i}) tracking environment framework initiated.`, currentNodeId, edgeId);
+            logState(2, `Checking baseline condition: Is pointer position index ${i} equal to target length ${s.length}?`, currentNodeId);
+
+            if (i === s.length) {
+                logState(3, `🟢 Target matched perfectly! End-of-string sequence completed successfully.`, currentNodeId, null, currentNodeId);
+                activeStack.pop();
+                return true;
+            }
+
+            logState(5, `Analyzing lookup array memory caches for index position [${i}].`, currentNodeId);
+            if (memo[i] != null) {
+                logState(6, `🛑 CACHE HIT! Index ${i} has previously calculated value: memo[${i}] = ${String(memo[i]).toUpperCase()}.`, currentNodeId, null, currentNodeId);
+                activeStack.pop();
+                return memo[i];
+            }
+
+            logState(8, `Iterating vocabulary library items to check for valid transitions...`, currentNodeId);
+            let standardMatchFound = false;
+
+            for (let word of wordDict) {
+                if (i + word.length <= s.length && s.substring(i, i + word.length) === word) {
+                    logState(9, `Prefix verified: Text snippet substring matched dictionary word: "${word}"`, currentNodeId);
+                    logState(10, `Branching out! Constructing execution path link and calling child stack: dfs(${i + word.length}).`, currentNodeId);
+                    
+                    let result = dfs(i + word.length, currentNodeId, word);
+                    
+                    if (result) {
+                        memo[i] = true;
+                        logState(11, `Unwinding recursive call stack back down to dfs(${i}). Writing cache: memo[${i}] = true.`, currentNodeId, null, currentNodeId);
+                        logState(12, `Escalating positive evaluation status upward.`, currentNodeId, null, currentNodeId);
+                        standardMatchFound = true;
+                        // DO NOT break out early; force the simulator to explore alternate words and draw the complete visual graph branches
+                    } else {
+                        logState(14, `Child branch returned false. Backtracking execution back to index location context: dfs(${i}).`, currentNodeId);
+                    }
+                }
+            }
+
+            if (standardMatchFound) {
+                activeStack.pop();
+                return true;
+            }
+
+            memo[i] = false;
+            logState(16, `All lookups failed or depleted at this position. Registering dead-end value: memo[${i}] = false.`, currentNodeId, null, currentNodeId);
+            logState(17, `Returning false back up to the caller's control frame.`, currentNodeId, null, currentNodeId);
+            activeStack.pop();
+            return false;
+        }
+        
+        dfs(0);
+        assignNodePositions();
+    }
+
+    function assignNodePositions() {
+        let layers = {};
+        Object.values(treeNodes).forEach(n => {
+            if (!layers[n.depth]) layers[n.depth] = [];
+            layers[n.depth].push(n);
+        });
+
+        Object.keys(layers).forEach(d => {
+            let nodesInLayer = layers[d];
+            let spacing = canvas.width / (nodesInLayer.length + 1);
+            nodesInLayer.forEach((node, idx) => {
+                node.x = spacing * (idx + 1);
+            });
+        });
+    }
+
+    function drawGraph() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const currentData = globalStates[step];
+        if (!currentData) return;
+
+        treeEdges.forEach(e => {
+            if (currentData.visibleNodes.includes(e.from) && currentData.visibleNodes.includes(e.to)) {
+                const fromNode = treeNodes[e.from];
+                const toNode = treeNodes[e.to];
+                const isBranchActive = currentData.activeEdges.includes(e.id);
+
+                ctx.beginPath();
+                ctx.moveTo(fromNode.x, fromNode.y);
+                ctx.lineTo(toNode.x, toNode.y);
+                ctx.strokeStyle = isBranchActive ? "#00ff87" : "#3c3c3c";
+                ctx.lineWidth = isBranchActive ? 3.5 : 1.5;
+                ctx.stroke();
+
+                ctx.fillStyle = isBranchActive ? "#00ff87" : "#7c7c7c";
+                ctx.font = "bold 11px monospace";
+                ctx.textAlign = "center";
+                
+                let offsetSide = (fromNode.x > toNode.x) ? -16 : 16;
+                ctx.fillText(e.lbl, (fromNode.x + toNode.x)/2 + offsetSide, (fromNode.y + toNode.y)/2 - 4);
+            }
+        });
+
+        currentData.visibleNodes.forEach(nodeKey => {
+            const node = treeNodes[nodeKey];
+            const isActive = (nodeKey === currentData.activeNode);
+            const isConfirmed = currentData.confirmedNodes && currentData.confirmedNodes.includes(nodeKey);
+
+            if (isActive) {
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 24, 0, 2 * Math.PI);
+                ctx.fillStyle = "rgba(0, 122, 204, 0.35)";
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, 16, 0, 2 * Math.PI);
+            
+            if (isConfirmed) {
+                ctx.fillStyle = currentData.memo[node.index] === false ? "#cf222e" : "#2ea043";
+            }
+            else if (isActive) ctx.fillStyle = "#007acc";
+            else ctx.fillStyle = "#2d2d2d";
+            
+            ctx.fill();
+            ctx.strokeStyle = isActive ? "#0098ff" : "#555555";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 11px monospace";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(node.index.toString(), node.x, node.y);
+            
+            ctx.fillStyle = isActive ? "#0098ff" : "#aaaaaa";
+            ctx.font = "bold 11px monospace";
+            ctx.fillText(`dfs(${node.index})`, node.x, node.y - 26);
+        });
+    }
+
+    function updateUI() {
+        const data = globalStates[step];
+        if (!data) return;
+
+        for (let i = 1; i <= 18; i++) {
+            const el = document.getElementById(`line${i}`);
+            if (el) el.className = "code-line";
+        }
+        const activeLineEl = document.getElementById(`line${data.activeLine}`);
+        if (activeLineEl) activeLineEl.className = "code-line line-active";
+
+        const stackContainer = document.getElementById("stackContainer");
+        stackContainer.innerHTML = "";
+        data.stack.forEach((frameIdx, i) => {
+            const frameBlock = document.createElement("div");
+            frameBlock.className = `stack-frame ${i === data.stack.length - 1 ? 'active' : ''}`;
+            
+            const remainingStringValue = currentStr.substring(frameIdx);
+            frameBlock.innerHTML = `
+                <div><strong>dfs(i: ${frameIdx})</strong></div>
+                <div class="substring-view">rem: "${remainingStringValue || '""'}"</div>
+            `;
+            stackContainer.appendChild(frameBlock);
+        });
+
+        const memoContainer = document.getElementById("memoContainer");
+        memoContainer.innerHTML = "";
+        for (let i = 0; i <= currentStr.length; i++) {
+            const block = document.createElement("div");
+            block.className = "memo-box";
+            if (data.memo[i] === true) {
+                block.classList.add("memo-true");
+                block.innerText = `[${i}]\nT`;
+            } else if (data.memo[i] === false) {
+                block.classList.add("memo-false");
+                block.innerText = `[${i}]\nF`;
+            } else {
+                block.innerText = `[${i}]\n-`;
+            }
+            memoContainer.appendChild(block);
+        }
+
+        drawGraph();
+
+        document.getElementById("stepInfo").innerText = `Step ${step + 1} of ${globalStates.length}`;
+        document.getElementById("actionLog").innerHTML = data.log;
+        document.getElementById("prevBtn").disabled = (step === 0);
+        document.getElementById("nextBtn").disabled = (step === globalStates.length - 1);
+    }
+
+    function generateNewVisualization() {
+        let rawStr = document.getElementById("inputString").value.trim();
+        let rawDict = document.getElementById("inputDict").value.split(",").map(w => w.trim()).filter(w => w.length > 0);
+        
+        if(!rawStr) { alert("Please input a valid target string string!"); return; }
+        if(rawDict.length === 0) { alert("Please input dictionary sample words!"); return; }
+
+        currentStr = rawStr;
+        step = 0;
+
+        runSimulatedWordBreak(rawStr, rawDict);
+        updateUI();
+    }
+
+    function nextStep() { if (step < globalStates.length - 1) { step++; updateUI(); } }
+    function prevStep() { if (step > 0) { step--; updateUI(); } }
+
+    generateNewVisualization();
+</script>
+</body>
+</html>
