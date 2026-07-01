@@ -2,7 +2,7 @@ import java.util.*;
 
 public class InfixToPostFix {
 
-    public static int priority(char c) {
+    public static int getPriority(char c) {
         if (c == '^') // Exponent operator has highest precedence
             return 3;
         else if (c == '/' || c == '*') // Multiplication and division have higher precedence than addition
@@ -13,15 +13,17 @@ public class InfixToPostFix {
             return -1;
     }
 
-    public static void main(String[] args) {
+    public static boolean isRightAssociative(char c) {
+        return c == '^';
+    }
 
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
+    public static String infixToPostFix(String s) {
+
         Stack<Character> st = new Stack<>();
         StringBuilder ans = new StringBuilder();
         int n = s.length();
 
-        for(int i = 0 ; i < n ; i++){
+        for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
             if (Character.isLetterOrDigit(c)) {
                 ans.append(c);
@@ -33,7 +35,10 @@ public class InfixToPostFix {
                 }
                 st.pop();
             } else {
-                while (!st.isEmpty() && priority(c) <= priority(st.peek())) {
+                while (!st.isEmpty() &&
+                        (isRightAssociative(c)
+                                ? getPriority(c) < getPriority(st.peek()) // strict less-than for right-assoc
+                                : getPriority(c) <= getPriority(st.peek()))) { // less-or-equal for left-assoc
                     ans.append(st.pop());
                 }
                 st.push(c);
@@ -42,6 +47,12 @@ public class InfixToPostFix {
         while (!st.isEmpty()) {
             ans.append(st.pop());
         }
-        System.out.println(ans);
+        return ans.toString();
+    }
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        System.out.println(infixToPostFix(s));
     }
 }
