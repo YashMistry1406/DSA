@@ -1,25 +1,21 @@
 import java.util.*;
 
+class Node {
+    int data;
+    Node prev;
+    Node next;
 
-class Node 
-{
-     int data;
-     Node prev; 
-     Node next;
+    Node(int data1, Node prev1, Node next1) {
+        this.data = data1;
+        this.prev = prev1;
+        this.next = next1;
+    }
 
-     Node (int data1 , Node prev1 , Node next1)
-     {
-         this.data = data1;
-         this.prev = prev1;
-         this.next = next1;
-     }
-
-     Node (int data1)
-     {
-         this.data = data1;
-         this.prev = null;
-         this.next = null;
-     }
+    Node(int data1) {
+        this.data = data1;
+        this.prev = null;
+        this.next = null;
+    }
 }
 
 /**
@@ -31,26 +27,23 @@ public class Insertion {
 
     /**
      * @param new_data
-     * {@summary} add a new element at the start of the linked list 
+     *                 {@summary} add a new element at the start of the linked list
      */
-    static void push(int new_data)
-    {
+    static void push(int new_data) {
         Node new_node = new Node(new_data);
 
         new_node.next = head;
         new_node.prev = null;
-        
-        if(head != null)
-        {
+
+        if (head != null) {
             head.prev = new_node;
         }
         head = new_node;
     }
-    static void InsertAfter(Node prev_node ,int new_data)
-    {
+
+    static void InsertAfter(Node prev_node, int new_data) {
         Node new_node = new Node(new_data);
-        if(prev_node == null)
-        {
+        if (prev_node == null) {
             System.out.println("prev cannot be null");
             return;
         }
@@ -58,45 +51,76 @@ public class Insertion {
         prev_node.next = new_node;
         new_node.prev = prev_node;
 
-        if(new_node.next != null)
-        {
+        if (new_node.next != null) {
             new_node.next.prev = new_node;
         }
     }
 
-    static void InsertBefore(int new_data, Node next_node)
-    {
-        if(next_node == null)
-        {
+    public static Node insertBeforeElement(Node head, int element, int value) {
+        // 1. Handle empty list
+        if (head == null) {
+            return null;
+        }
+
+        // 2. Handle inserting before the HEAD node
+        if (head.data == element) {
+            Node newNode = new Node(value, null, head);
+            head.prev = newNode;
+            return newNode; // The new node becomes the new head
+        }
+
+        // 3. Traverse to find the element
+        Node curr = head;
+        while (curr != null && curr.data != element) {
+            curr = curr.next;
+        }
+
+        // 4. If element wasn't found in the entire list
+        if (curr == null) {
+            System.out.println("Element not found.");
+            return head;
+        }
+
+        // 5. Insert before 'curr' (Safe because curr is not head and not null)
+        Node newNode = new Node(value, curr.prev, curr);
+        curr.prev.next = newNode;
+        curr.prev = newNode;
+
+        return head;
+    }
+
+    static void InsertBefore(int new_data, Node next_node) {
+        if (next_node == null) {
             System.out.println("Node cannot be null");
-            return ;
+            return;
         }
         Node new_node = new Node(new_data);
 
         new_node.prev = next_node.prev;
         next_node.prev = new_node;
         new_node.next = next_node;
-        if (new_node.prev != null) new_node.prev.next = new_node;
-        else head = new_node;
+        if (new_node.prev != null)
+            new_node.prev.next = new_node;
+        else
+            head = new_node;
     }
 
-    void append(int new_data)
-    {
-    Node new_node = new Node(new_data);
+    void append(int new_data) {
+        Node new_node = new Node(new_data);
 
-    Node last = head;
-    new_node.next = null;
+        Node last = head;
+        new_node.next = null;
 
-    if (head == null) {
-        new_node.prev = null;
-        head = new_node;
-        return;
-    }
-    while (last.next != null)
-        last = last.next;
+        if (head == null) {
+            new_node.prev = null;
+            head = new_node;
+            return;
+        }
+        while (last.next != null)
+            last = last.next;
 
-    last.next = new_node;
+        last.next = new_node;
 
-    new_node.prev = last;
+        new_node.prev = last;
     }
 }

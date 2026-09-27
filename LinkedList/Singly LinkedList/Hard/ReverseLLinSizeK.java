@@ -48,10 +48,17 @@ class Solution
             }
 
             // Connect the previous group to the reversed group
+            // BEFORE reversing:
+            //groupPrev → [ A → B → C → D ] → next
+            // After Reversing
+            //groupPrev → [ D → C → B → A ] → next
+
+
             ListNode temp = groupPrev.next;
             groupPrev.next = kth;
             groupPrev = temp;
         }
+
 
         // Return the new head
         return dummy.next;
